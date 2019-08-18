@@ -148,3 +148,4 @@ ENABLE_KILLME = True
 CMD_HELP = {}
 ZALG_LIST = {}
 CONFIG = {}
+ADMIN_CMD = {}
