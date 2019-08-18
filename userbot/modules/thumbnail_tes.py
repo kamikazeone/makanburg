@@ -18,7 +18,7 @@ from userbot.events import register
 from telethon import events
 
 
-thumb_image_path = TMP_DOWNLOAD_DIRECTORY + "/thumb_image.jpg"
+#thumb_image_path = TMP_DOWNLOAD_DIRECTORY + "/thumb_image.jpg"
 
 
 def get_video_thumb(file, output=None, width=320):
