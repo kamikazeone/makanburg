@@ -7,7 +7,7 @@ By:- @Zero_cool7870
 """
 
 
-from github import Github
+#from github import Github
 import aiohttp
 import asyncio
 import os
