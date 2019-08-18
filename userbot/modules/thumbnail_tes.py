@@ -13,7 +13,7 @@ from PIL import Image
 #from uniborg.util import admin_cmd
 
 
-from userbot import bot
+from userbot import (bot,admin_cmd)
 from userbot.events import register
 from telethon import events
 
@@ -46,7 +46,7 @@ async def _(event):
     if not os.path.isdir(TMP_DOWNLOAD_DIRECTORY):
         os.makedirs(TMP_DOWNLOAD_DIRECTORY)
     if event.reply_to_msg_id:
-        downloaded_file_name = await borg.download_media(
+        downloaded_file_name = await userbot.download_media(
             await event.get_reply_message(),
             TMP_DOWNLOAD_DIRECTORY
         )
@@ -95,14 +95,14 @@ async def _(event):
     if event.reply_to_msg_id:
         r = await event.get_reply_message()
         try:
-            a = await borg.download_media(
+            a = await userbot.download_media(
                 r.media.document.thumbs[0],
                 TMP_DOWNLOAD_DIRECTORY
             )
         except Exception as e:
             await event.edit(str(e))
         try:
-            await borg.send_file(
+            await userbot.send_file(
                 event.chat_id,
                 a,
                 force_document=False,
@@ -115,7 +115,7 @@ async def _(event):
             await event.edit(str(e))
     elif os.path.exists(thumb_image_path):
         caption_str = "Currently Saved Thumbnail. Clear with `.clearthumbnail`"
-        await borg.send_file(
+        await userbot.send_file(
             event.chat_id,
             thumb_image_path,
             caption=caption_str,
