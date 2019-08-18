@@ -147,3 +147,4 @@ LASTMSG = {}
 ENABLE_KILLME = True
 CMD_HELP = {}
 ZALG_LIST = {}
+Config = {}
