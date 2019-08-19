@@ -1,3 +1,7 @@
+
+from userbot.events import register
+
+
 @register(outgoing=True, pattern=r"^.google (.*)")
 
 async def gsearch(q_event):
