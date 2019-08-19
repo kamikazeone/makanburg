@@ -2,6 +2,7 @@
 #
 # Licensed under the Raphielscape Public License, Version 1.b (the "License");
 # you may not use this file except in compliance with the License.
+# sp by peru @AvinashReddy3108 & @Zero_cool7870
 #
 
 """ Userbot module containing various scrapers. """
@@ -10,13 +11,13 @@ import os
 import shutil
 from bs4 import BeautifulSoup
 import re
+import json
+import asyncio
 from time import sleep
 from html import unescape
 from re import findall
 from datetime import datetime
 from selenium import webdriver
-from urllib.parse import quote_plus
-from urllib.error import HTTPError
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.chrome.options import Options
 from wikipedia import summary
@@ -89,7 +90,7 @@ async def carbon_api(e):
    await e.client.send_file(
          e.chat_id,
          file,
-         caption="Made using [Carbon](https://carbon.now.sh/about/), a project by [Dawn Labs](https://dawnlabs.io/)",
+         caption="Your Carbon is Ready",
          force_document=True,
          reply_to=e.message.reply_to_msg_id,
          )
@@ -158,31 +159,34 @@ async def _(event):
         ms = (end - start).seconds
 
 
-@register(outgoing=True, pattern=r"^.search (.*)")
-async def gsearch(q_event):
-    """ For .google command, do a Google search. """
-    if not q_event.text[0].isalpha() and q_event.text[0] not in (
+@register(outgoing=True, pattern=r"^.gs (.*)")
+async def gsearch(event):
+    """ For .sp command, do a Google search. """
+    if not event.text[0].isalpha() and event.text[0] not in (
             "/", "#", "@", "!"):
-        match_ = q_event.pattern_match.group(1)
-        match = quote_plus(match_)
-        plain_txt = get(f"https://www.startpage.com/do/search?cmd=process_search&query={match}", 'html').text
-        soup = BeautifulSoup(plain_txt, "lxml")
-        
-        msg = ""
-        for result in soup.find_all('a', {'class': 'w-gl__result-title'}):
-            title = result.text
-            link = result.get('href')
-            msg += f"{title}{link}\n"
-            
-        await q_event.edit(
-            "**Search Query:**\n`" + match_ + "`\n\n**Results:**\n" + msg,
-            link_preview = False
-        )
+        search_str = event.pattern_match.group(1)
+
+        await event.edit("`PaperPlane Exrended is Getting Information From Google Please Wait... ✍️🙇`")
+
+        command = "sp --json "+search_str+" > out.json"
+
+        os.system(command)
+
+        f = open('out.json','r').read()
+
+        data = json.loads(str(f))
+
+        msg = "**Google Search Query:**\n\n`"+search_str+"`\n\n**Results:**\n\n"
+
+        for element in data:
+            msg = msg + "🔎**"+element['title']+"**\n"+element['link']+"\n\n"
+
+        await event.edit(msg)
         
         if BOTLOG:
-            await q_event.client.send_message(
+            await event.client.send_message(
                 BOTLOG_CHATID,
-                "Search query `" + match_ + "` was executed successfully",
+                "Search query `" + search_str + "` was executed successfully",
             )
 
 @register(outgoing=True, pattern=r"^.wiki (.*)")
@@ -472,9 +476,9 @@ async def yt_search(video_q):
         for video in videos_json:
             title = f"{unescape(video['snippet']['title'])}"
             link = f"https://youtu.be/{video['id']['videoId']}"
-            result += f"{title}\n{link}\n\n"
+            result += f"🔎{title}\n{link}\n\n"
 
-        reply_text = f"**Search Query:**\n`{query}`\n\n**Results:**\n\n{result}"
+        reply_text = f"**YouTube Search Query:**\n\n`{query}`\n\n**Results:**\n\n{result}"
 
         await video_q.edit(reply_text)
 
@@ -607,16 +611,12 @@ CMD_HELP.update({
         \nUsage: Beautify your code using carbon.now.sh\nUse .crblang <text> to set language for your code.'
 })
 CMD_HELP.update({
-    'search': '.search <query>\
+    'search': '.gs <query>\
         \nUsage: Does a search on StartPage.'
 })
 CMD_HELP.update({
     'wiki': '.wiki <query>\
         \nUsage: Does a search on Wikipedia.'
-})
-CMD_HELP.update({
-    'ud': '.ud <query>\
-        \nUsage: Does a search on Urban Dictionary.'
 })
 CMD_HELP.update({
     'ud': '.ud <query>\
