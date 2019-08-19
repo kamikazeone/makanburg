@@ -154,7 +154,7 @@ async def nou(e):
 @register(outgoing=True, pattern="^.sip$")
 async def sip(e):
     if not e.text[0].isalpha() and e.text[0] not in ("/", "#", "@", "!"):
-await e.edit("`\n‡‡‡‡‡‡‡‡‡‡‡‡▄▄▄▄ 
+await e.edit("`\n‡‡‡‡‡‡‡‡‡‡‡‡▄▄▄▄`"
              "`\n‡‡‡‡‡‡‡‡‡‡‡█‡‡‡‡█ `"
              "`\n‡‡‡‡‡‡‡‡‡‡‡█‡‡‡‡█`"
              "`\n‡‡‡‡‡‡‡‡‡‡█‡‡‡‡‡█`"
