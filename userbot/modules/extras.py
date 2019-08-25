@@ -170,9 +170,4 @@ async def sip(e):
                      "`\n█████‡‡‡‡‡‡‡██████████™`")
 
         
-@register(outgoing=True, pattern=r"\.h (.*)")
-async def payf(e):
-    if not e.text[0].isalpha() and e.text[0] not in ("/", "#", "@", "!"):
-        paytext = e.pattern_match.group(1)
-        pay = "{}‡‡‡‡‡‡‡‡\n{}‡‡‡‡‡‡‡‡\n{}‡‡‡‡‡‡‡‡\n{}\n{}\n{}‡‡‡{}\n{}‡‡‡{}\n{}‡‡‡{}\n\n\n{}\n{}\n‡‡‡‡‡‡‡‡‡{}\n{}\n{}\n{}‡‡‡{}\n{}\n{}\n{}\n{}\n".format(paytext*2, paytext*2,paytext*2, paytext*5, paytext*5, paytext*2, paytext*2, paytext*2, paytext*0, paytext*0, paytext*5, paytext*5, paytext*2, paytext*5, paytext*5, paytext*2, paytext*5, paytext*5)
-        await e.edit(pay)
+
